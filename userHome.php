@@ -1,3 +1,8 @@
+<?php
+@ require 'include/php_functions/db_functions.php';
+@ require 'include/db_data/db_data.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -48,24 +53,21 @@
     
   
     <div class="container">
-	<div class="login">
-      <div class="starter-template">
-        <h1 class="welcomeTitle">Raining Mail</h1>
-        <h3>Your Mail Everywhere</h3>
-        </div>
-      
-      
-      <form class="form-signin" role="form" action="userHome.php" method="post">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <input type="email" class="form-control" placeholder="Email address" required autofocus name="username">
-        <input type="password" class="form-control" placeholder="Password" required>
-        <label class="checkbox">
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      </form>
-      </div>
-
+    <div class="workingArea">
+	<h5>Welcome User <?php echo $_POST['username']?></h5>
+			<table class="buttons">
+                <tr>
+				<td>Visualizzazioni</td>
+				<td><a href="subscriberList.php" class="btn btn-primary">Lista iscritti</a></td>
+				<td><a href="bloggerList.php" class="btn btn-primary">Lista sottoscrittori</a></td>
+				</tr>
+                <tr>
+                <td>Operazioni sui contatti</td>
+				<td><a href="contactsOperations.php" class="btn btn-primary">Nuovo contatto</a></td>
+				<td><a href="deleteMultiple.php" class="btn btn-primary">Elimina contatti</a></td>
+				</tr>
+             </table>
+	</div>
     </div><!-- /.container -->
 	
     <footer>
