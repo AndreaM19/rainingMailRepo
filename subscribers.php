@@ -109,58 +109,40 @@ LoginSessions::startSession();
 			</table>
 			 -->
 			<hr>
-			<h4>Ultime iscrizioni:</h4>
-			<table class="table lastSubscription">
+			<h4>Utenti iscritti:</h4>
+			<table class="table subscriberList">
 				<tr style="background-color: #428bca; color: #FFF;">
 					<td class="date">Data iscrizione</td>
-					<td>Nome</td>
-					<td>Cognome</td>
+					<td class="std">Nome</td>
+					<td class="std">Cognome</td>
 					<td class="mail">E-Mail</td>
-					<td class="icon">OK</td>
-					<td class="icon">Info</td>
-				</tr>
-				<?php
-				$count=0;
-				$queryText="SELECT Email, Cognome, Nome, Data_iscrizione FROM subscribers INNER JOIN last_subscription ON ID=userID";
-				$query = mysql_query($queryText,$dbConn);
-				while ($row = mysql_fetch_array($query))
-				{
-					echo"<tr>";
-					echo"<td class='date'>".$row['Data_iscrizione']."</td>";
-					echo"<td>".$row['Nome']."</td>";
-					echo"<td>".$row['Cognome']."</td>";
-					echo"<td class='mail'>".$row['Email']."</td>";
-					echo"<td class='icon'><a href='#' onClick='alert()'><img src='img/icons/spunta.png' class='imageIcon'></a></td>";
-					echo"<td class='icon'><a href='#' onClick='alert()'><img src='img/icons/moreInfo.png' class='imageIcon'></a></td>";
-					echo"</tr>";
-					$count++;
-				}
-				if($count=0)echo"<tr><td>Nessun nuovo iscritto non ancora visualizzato</td></tr>"
-				?>
-			</table>
-
-			<hr>
-			<h4>Bozze Newsletter:</h4>
-			<table class="table lastSubscription">
-				<tr style="background-color: #5cb85c; color: #FFF;">
-					<td class="date">Data</td>
-					<td>Autore</td>
-					<td class="mail">Titolo</td>
+					<td class="std">Citt&agrave;</td>
+					<td class="std">Stato</td>
+					<td class="sitoWeb">Sito Web</td>
+					<td class="std">Attivit&agrave;</td>
 					<td class="icon">Edit</td>
+					<td class="icon">Info</td>
 					<td class="icon">Del</td>
 				</tr>
 				<?php
 				$count=0;
-				$queryText="SELECT Email, Cognome, Nome, Data_iscrizione FROM subscribers INNER JOIN last_subscription ON ID=userID";
+				$queryText="SELECT * FROM subscribers";
 				$query = mysql_query($queryText,$dbConn);
 				while ($row = mysql_fetch_array($query))
 				{
 					echo"<tr>";
 					echo"<td class='date'>".$row['Data_iscrizione']."</td>";
-					echo"<td>".$row['Nome']."</td>";
-
+					echo"<td class='std'>".$row['Nome']."</td>";
+					echo"<td class='std'>".$row['Cognome']."</td>";
 					echo"<td class='mail'>".$row['Email']."</td>";
+					echo"<td class='std'>".$row['Citta']."</td>";
+					echo"<td class='std'>".$row['Stato']."</td>";
+					echo"<td class='sitoWeb'>";
+					if($row['Sito_Web']!="")echo"<a href='".$row['Sito_Web']."' target='_blank'>Link</a>";
+					echo"</td>";
+					echo"<td class='std'>".$row['Attivita']."</td>";
 					echo"<td class='icon'><a href='#' onClick='alert()'><img src='img/icons/edit.png' class='imageIcon'></a></td>";
+					echo"<td class='icon'><a href='#' onClick='alert()'><img src='img/icons/moreInfo.png' class='imageIcon'></a></td>";
 					echo"<td class='icon'><a href='#' onClick='confirm()'><img src='img/icons/delete.png' class='imageIcon'></a></td>";
 					echo"</tr>";
 					$count++;
@@ -168,6 +150,8 @@ LoginSessions::startSession();
 				if($count=0)echo"<tr><td>Nessun nuovo iscritto non ancora visualizzato</td></tr>"
 				?>
 			</table>
+
+
 		</div>
 	</div>
 	<!-- /.container -->
@@ -187,7 +171,6 @@ LoginSessions::startSession();
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-
 </body>
 </html>
 <?php

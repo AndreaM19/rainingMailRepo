@@ -1,39 +1,3 @@
-<?php
-@ require 'include/DB/dbUtility.php';
-@ require 'include/DB/dbData.php';
-require_once 'include/Auth/LoginSessions.php';
-?>
-
-<?php
-$dbConn=dbUtility::connectToDB($HOST, $USER, $PASSWORD, $DB);
-?>
-
-<?php
-@$correctLogin="notSet";
-LoginSessions::startSession();
-if(@$_SESSION['level']=="1")header("location:userHome.php");
-
-if(@$_GET['login']=="true"){
-	$queryText = mysql_query("SELECT username, password, name, imgPath, Level FROM users",$dbConn);
-	while ($row = mysql_fetch_array($queryText))
-	{
-		if($row['password']==md5($_POST['password']) && $row['username']==md5($_POST['username']))
-		{			
-			$_SESSION['level']=$row['Level'];
-			$_SESSION['user']=$row['name'];
-			$_SESSION['userImg']=$row['imgPath'];
-			header("location:userHome.php");
-			$correctLogin=true;
-		}
-		else $correctLogin=false;
-
-	}
-}
-else if(@$_GET['login']=="false"){
-	LoginSessions::stopSession("index.php");
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,6 +22,7 @@ else if(@$_GET['login']=="false"){
 <link href="css/style.css" rel="stylesheet">
 
 </head>
+
 <body class="intro">
 	<header>
 		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -83,44 +48,45 @@ else if(@$_GET['login']=="false"){
 			</div>
 		</div>
 	</header>
-
-
+	
 	<div class="container">
-		<div class="login">
-			<div class="starter-template">
-				<h1 class="welcomeTitle">Raining Mail</h1>
-				<h3>Your Mail Everywhere</h3>
-			</div>
-
-			<form class="form-signin" style="margin-top:-40px;" role="form" action="index.php?login=true"
-				method="post">
-				<h4 class="form-signin-heading">Please sign in</h4>
-				<input type="email" class="form-control" placeholder="Email address"
-					required autofocus name="username"> <input type="password"
+		<div class="workingArea">
+			<h4>Nuovo utente:</h4>
+			<div class="newUser">
+				<form>
+					<fieldset>
+						<div class="form-group">
+							<label for="nome">Nome</label> <input type="text"
+								class="form-control" id="nome"
+								placeholder="Inserisci il nome...">
+						</div>
+						<div class="form-group">
+							<label for="cognome">Cognome</label> <input type="text"
+								class="form-control" id="cognome"
+								placeholder="Inserisci il cognome...">
+						</div>
+						<div class="form-group">
+							<label for="email">Email</label> <input type="text"
+								class="form-control" id="email"
+								placeholder="Inserisci l'indirizzo email...">
+						</div>
+						<div class="form-group">
+							<label for="email">Ripeti Email</label> <input type="text"
+								class="form-control" id="email"
+								placeholder="Inserisci l'indirizzo email...">
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label> <input type="password"
 					class="form-control" placeholder="Password" required
-					name="password"> <label class="checkbox"> <input type="checkbox"
-					value="remember-me"> Remember me
-				</label>
-				<button class="btn btn-lg btn-primary btn-block" type="submit">Sign
-					in</button>
-			</form><br>
-			<?php
-			if(@$_GET['msg']=="denied"){
-				echo "<div class='alert alert-danger' style='width:200px;margin: 0 auto'>
-				<button type='button' class='close' data-dismiss='alert'>&times;</button>
-				Accesso negato
-				</div>";
-			}
-			
-			if(!$correctLogin){
-				echo "<div class='alert alert-danger' style='width:200px;margin: 0 auto'>
-				<button type='button' class='close' data-dismiss='alert'>&times;</button>
-				Username e/o password errati
-				</div>";
-			}
-			?>
-		</div>
+					name="password">
+						</div>
+						
+						<button type="submit" class="btn btn-default">Registra</button>
+					</fieldset>
+				</form>
 
+			</div>
+		</div>
 	</div>
 	<!-- /.container -->
 
@@ -141,6 +107,3 @@ else if(@$_GET['login']=="false"){
 	<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
-<?php
-dbUtility::disconnectFromDB($dbConn);
-?>
