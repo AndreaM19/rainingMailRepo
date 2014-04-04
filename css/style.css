@@ -70,7 +70,7 @@ div.newUser{
 }
 
 div.newContact{
-	width:600px;
+	/*width:500px;*/
 }
 
 td.std{
@@ -89,7 +89,16 @@ td.icon{
 	width:35px;
 }
 
+td.sel{
+	width:25px;
+	text-align:center;
+}
+
 td.sitoWeb{
 	max-width:150px;
 	overflow:hidden;
+}
+
+.alignRight{
+	text-align:right;
 }

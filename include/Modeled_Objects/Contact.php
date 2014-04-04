@@ -5,13 +5,19 @@ class Contact{
 	private $mail;
 	private $city;
 	private $subscriptionDate;
+	private $location;
+	private $activity;
+	private $webSite;
 
 	/*constructor*/
-	public function Contact($name, $surname, $mail, $city, $subscriptionDate){
+	public function Contact($name, $surname, $mail, $city, $location, $activity, $webSite, $subscriptionDate){
 		$this->name=$name;
 		$this->surname=$surname;
 		$this->mail=$mail;
 		$this->city=$city;
+		$this->location=$location;
+		$this->activity=$activity;
+		$this->webSite=$webSite;
 		$this->subscriptionDate=$subscriptionDate;
 	}
 
@@ -46,6 +52,30 @@ class Contact{
 	
 	public function getCity(){
 		return $this->city;
+	}
+	
+	public function setLocation($locationToSet){
+		$this->location=$locationToSet;
+	}
+	
+	public function getLocation(){
+		return $this->location;
+	}
+	
+	public function setActivity($activityToSet){
+		$this->activity=$activityToSet;
+	}
+	
+	public function getActivity(){
+		return $this->activity;
+	}
+	
+	public function setWebSite($webSiteToSet){
+		$this->webSite=$webSiteToSett;
+	}
+	
+	public function getWebsite(){
+		return $this->webSite;
 	}
 	
 	public function setSubscriptionDate($dateToSet){

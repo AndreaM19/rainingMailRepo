@@ -62,10 +62,10 @@ LoginSessions::startSession();
 							<ul class="dropdown-menu">
 								<li><a href="subscribers.php">Mostra contatti</a></li>
 								<li><a href="newContact.php">Nuovo contatto</a></li>
-								<li><a href="#">Rimuovi contatti</a></li>
+								<li><a href="removeContacts.php">Rimuovi contatti</a></li>
 							</ul>
 						</li>
-						
+
 						<?php if(@$_SESSION['level']==1)echo "<li><a href='index.php?login=false'>Logout</a></li>";?>
 					</ul>
 				</div>
@@ -109,65 +109,78 @@ LoginSessions::startSession();
 			</table>
 			 -->
 			<hr>
-			<h4>Ultime iscrizioni:</h4>
-			<table class="table lastSubscription">
-				<tr style="background-color: #428bca; color: #FFF;">
-					<td class="date">Data iscrizione</td>
-					<td>Nome</td>
-					<td>Cognome</td>
-					<td class="mail">E-Mail</td>
-					<td class="icon">OK</td>
-					<td class="icon">Info</td>
-				</tr>
-				<?php
-				$count=0;
-				$queryText="SELECT Email, Cognome, Nome, Data_iscrizione FROM subscribers INNER JOIN last_subscription ON ID=userID";
-				$query = mysql_query($queryText,$dbConn);
-				while ($row = mysql_fetch_array($query))
-				{
-					echo"<tr>";
-					echo"<td class='date'>".$row['Data_iscrizione']."</td>";
-					echo"<td>".$row['Nome']."</td>";
-					echo"<td>".$row['Cognome']."</td>";
-					echo"<td class='mail'>".$row['Email']."</td>";
-					echo"<td class='icon'><a href='#' onClick='alert()'><img src='img/icons/spunta.png' class='imageIcon'></a></td>";
-					echo"<td class='icon'><a href='#' onClick='alert()'><img src='img/icons/moreInfo.png' class='imageIcon'></a></td>";
-					echo"</tr>";
-					$count++;
-				}
-				if($count=0)echo"<tr><td>Nessun nuovo iscritto non ancora visualizzato</td></tr>"
-				?>
-			</table>
+			<div class="row">
+				<!-- Main column  -->
+				<div class="col-md-8">
+					<h4>Ultime iscrizioni:</h4>
+					<table class="table lastSubscription">
+						<tr style="background-color: #428bca; color: #FFF;">
+							<td class="date">Data iscrizione</td>
+							<td>Nome</td>
+							<td>Cognome</td>
+							<td class="mail">E-Mail</td>
+							<td class="icon">OK</td>
+							<td class="icon">Info</td>
+						</tr>
+						<?php
+						$count=0;
+						$queryText="SELECT ID, Email, Cognome, Nome, Data_iscrizione FROM subscribers INNER JOIN last_subscription ON ID=userID";
+						$query = mysql_query($queryText,$dbConn);
+						while ($row = mysql_fetch_array($query))
+						{
+							echo"<tr>";
+							echo"<td class='date'>".$row['Data_iscrizione']."</td>";
+							echo"<td>".$row['Nome']."</td>";
+							echo"<td>".$row['Cognome']."</td>";
+							echo"<td class='mail'>".$row['Email']."</td>";
+							echo"<td class='icon'><a href='#' onClick='alert()'><img src='img/icons/spunta.png' class='imageIcon'></a></td>";
+							echo"<td class='icon'><a href='#' onClick='alert()'><img src='img/icons/moreInfo.png' class='imageIcon'></a></td>";
+							echo"</tr>";
+							$count++;
+						}
+						if($count=0)echo"<tr><td>Nessun nuovo iscritto non ancora visualizzato</td></tr>"
+						?>
+					</table>
 
-			<hr>
-			<h4>Bozze Newsletter:</h4>
-			<table class="table lastSubscription">
-				<tr style="background-color: #5cb85c; color: #FFF;">
-					<td class="date">Data</td>
-					<td>Autore</td>
-					<td class="mail">Titolo</td>
-					<td class="icon">Edit</td>
-					<td class="icon">Del</td>
-				</tr>
-				<?php
-				$count=0;
-				$queryText="SELECT Email, Cognome, Nome, Data_iscrizione FROM subscribers INNER JOIN last_subscription ON ID=userID";
-				$query = mysql_query($queryText,$dbConn);
-				while ($row = mysql_fetch_array($query))
-				{
-					echo"<tr>";
-					echo"<td class='date'>".$row['Data_iscrizione']."</td>";
-					echo"<td>".$row['Nome']."</td>";
+					<hr>
+					<h4>Bozze Newsletter:</h4>
+					<table class="table lastSubscription">
+						<tr style="background-color: #5cb85c; color: #FFF;">
+							<td class="date">Data</td>
+							<td>Autore</td>
+							<td class="mail">Titolo</td>
+							<td class="icon">Edit</td>
+							<td class="icon">Del</td>
+						</tr>
+						<?php
+						$count=0;
+						$queryText="SELECT Email, Cognome, Nome, Data_iscrizione FROM subscribers INNER JOIN last_subscription ON ID=userID";
+						$query = mysql_query($queryText,$dbConn);
+						while ($row = mysql_fetch_array($query))
+						{
+							echo"<tr>";
+							echo"<td class='date'>".$row['Data_iscrizione']."</td>";
+							echo"<td>".$row['Nome']."</td>";
 
-					echo"<td class='mail'>".$row['Email']."</td>";
-					echo"<td class='icon'><a href='#' onClick='alert()'><img src='img/icons/edit.png' class='imageIcon'></a></td>";
-					echo"<td class='icon'><a href='#' onClick='confirm()'><img src='img/icons/delete.png' class='imageIcon'></a></td>";
-					echo"</tr>";
-					$count++;
-				}
-				if($count=0)echo"<tr><td>Nessun nuovo iscritto non ancora visualizzato</td></tr>"
-				?>
-			</table>
+							echo"<td class='mail'>".$row['Email']."</td>";
+							echo"<td class='icon'><a href='#' onClick='alert()'><img src='img/icons/edit.png' class='imageIcon'></a></td>";
+							echo"<td class='icon'><a href='#' onClick='confirm()'><img src='img/icons/delete.png' class='imageIcon'></a></td>";
+							echo"</tr>";
+							$count++;
+						}
+						if($count=0)echo"<tr><td>Nessun nuovo iscritto non ancora visualizzato</td></tr>"
+						?>
+					</table>
+
+				</div>
+
+				<!-- Side column  -->
+				<div class="col-md-4">
+				<h1>This is a side column for other modules</h1></div>
+			</div>
+
+
+
 		</div>
 	</div>
 	<!-- /.container -->
@@ -184,8 +197,8 @@ LoginSessions::startSession();
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
+    <script src="js/jquery.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 
 </body>

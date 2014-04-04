@@ -62,7 +62,7 @@ LoginSessions::startSession();
 							<ul class="dropdown-menu">
 								<li><a href="subscribers.php">Mostra contatti</a></li>
 								<li><a href="newContact.php">Nuovo contatto</a></li>
-								<li><a href="#">Rimuovi contatti</a></li>
+								<li><a href="removeContacts.php">Rimuovi contatti</a></li>
 							</ul>
 						</li>
 						
@@ -120,8 +120,8 @@ LoginSessions::startSession();
 					<td class="std">Stato</td>
 					<td class="sitoWeb">Sito Web</td>
 					<td class="std">Attivit&agrave;</td>
-					<td class="icon">Edit</td>
 					<td class="icon">Info</td>
+					<td class="icon">Edit</td>
 					<td class="icon">Del</td>
 				</tr>
 				<?php
@@ -140,9 +140,9 @@ LoginSessions::startSession();
 					echo"<td class='sitoWeb'>";
 					if($row['Sito_Web']!="")echo"<a href='".$row['Sito_Web']."' target='_blank'>Link</a>";
 					echo"</td>";
-					echo"<td class='std'>".$row['Attivita']."</td>";
-					echo"<td class='icon'><a href='#' onClick='alert()'><img src='img/icons/edit.png' class='imageIcon'></a></td>";
-					echo"<td class='icon'><a href='#' onClick='alert()'><img src='img/icons/moreInfo.png' class='imageIcon'></a></td>";
+					echo"<td class='std'>".$row['Attivita']."</td>";					
+					echo"<td class='icon'><a href='contactDetails.php?id=".$row['ID']."&edit=show'><img src='img/icons/moreInfo.png' class='imageIcon'></a></td>";
+					echo"<td class='icon'><a href='contactDetails.php?id=".$row['ID']."&edit=edit'><img src='img/icons/edit.png' class='imageIcon'></a></td>";
 					echo"<td class='icon'><a href='#' onClick='confirm()'><img src='img/icons/delete.png' class='imageIcon'></a></td>";
 					echo"</tr>";
 					$count++;
@@ -168,8 +168,8 @@ LoginSessions::startSession();
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
+    <script src="js/jquery.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 </body>
 </html>

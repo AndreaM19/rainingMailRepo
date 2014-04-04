@@ -2,6 +2,7 @@
 @ require 'include/DB/dbUtility.php';
 @ require 'include/DB/dbData.php';
 require_once 'include/Auth/LoginSessions.php';
+require_once 'include/Modeled_Objects/Contact.php';
 ?>
 
 <?php
@@ -108,23 +109,46 @@ LoginSessions::startSession();
 			</table>
 			 -->
 			<hr>
-			<h4>Nuovo contatto:</h4>
+			<?php
+			$userId=$_GET['id'];
+			$editFlag="";
+			if($_GET['edit']=="edit");
+			else if($_GET['edit']=="show")$editFlag="disabled ";
+			$contactData; /*Creation of a Contact object from the Contact.php Class*/
+
+			$queryText="SELECT * FROM subscribers WHERE ID=".$userId."";
+			$query = mysql_query($queryText,$dbConn);
+			while ($row = mysql_fetch_array($query)){
+				$contactData=new Contact($row['Nome'], $row['Cognome'], $row['Email'], $row['Citta'], $row['Stato'], $row['Attivita'], $row['Sito_Web'], $row['Data_iscrizione']);
+			}
+			?>
+
+
+			<?php
+			/*Page title generetion*/
+			if($_GET['edit']=="edit") echo"<h4>Modifica contatto:</h4>";
+			else echo"<h4>Dettagli contatto:</h4>";
+			?>
+
 			<div class="col-md-5">
 				<form>
 					<fieldset>
 						<div class="form-group">
 							<label for="nome">Nome</label> <input type="text"
 								class="form-control" id="nome"
-								placeholder="Inserisci il nome...">
+								placeholder="Inserisci il nome..."
+								<?php echo $editFlag; echo "value='".$contactData->getName()."'"?>>
 						</div>
 						<div class="form-group">
 							<label for="email">Email</label> <input type="text"
 								class="form-control" id="email"
-								placeholder="Inserisci l'indirizzo email...">
+								placeholder="Inserisci l'indirizzo email..."
+								<?php echo $editFlag; echo "value='".$contactData->getMail()."'"?>>
 						</div>
 						<div class="form-group">
 							<label for="stato">Nazione</label> <select class="form-control"
-								id="stato">
+								id="stato"
+								<?php echo $editFlag; echo "value='".$contactData->getLocation()."'"?>>
 								<option>Italia</option>
 								<option>Francia</option>
 								<option>Germania</option>
@@ -132,7 +156,7 @@ LoginSessions::startSession();
 						</div>
 						<div class="form-group">
 							<label for="stato">Attivit&agrave;</label> <select
-								class="form-control" id="stato">
+								class="form-control" id="stato" <?php echo $editFlag; echo "value='".$contactData->getActivity()."'"?>>
 								<option>DJ-Producer</option>
 								<option>Computer Music Expert</option>
 								<option>Musicista</option>
@@ -141,7 +165,14 @@ LoginSessions::startSession();
 								<option>Altro</option>
 							</select>
 						</div>
-						<br><button type="submit" class="btn btn-default">Inserisci</button>
+
+						<?php if(!$editFlag) {
+							echo "<table><tr>";
+							echo "<td><button type='submit'' class='btn btn-default'>Salvale modifiche</button></td>";
+							echo "<td><a href='subscribers.php' class='btn btn-danger'>Torna ai contatti senza salvare</a></td>";
+							echo "</tr></table>";
+						}
+						?>
 					</fieldset>
 				</form>
 			</div>
@@ -152,17 +183,20 @@ LoginSessions::startSession();
 						<div class="form-group">
 							<label for="cognome">Cognome</label> <input type="text"
 								class="form-control" id="cognome"
-								placeholder="Inserisci il cognome...">
+								placeholder="Inserisci il cognome..."
+								<?php echo $editFlag; echo "value='".$contactData->getSurname()."'"?>>
 						</div>
 						<div class="form-group">
 							<label for="citta">Citt&agrave;</label> <input type="text"
 								class="form-control" id="city"
-								placeholder="Inserisci la tua città">
+								placeholder="Inserisci la tua città"
+								<?php echo $editFlag; echo "value='".$contactData->getCity()."'"?>>
 						</div>
 						<div class="form-group">
 							<label for="sitoWeb">Sito Web</label> <input type="text"
 								class="form-control" id="email"
-								placeholder="Inserisci il tuo sito Web">
+								placeholder="Inserisci il tuo sito Web"
+								<?php echo $editFlag; echo "value='".$contactData->getWebsite()."'"?>>
 						</div>
 					</fieldset>
 				</form>

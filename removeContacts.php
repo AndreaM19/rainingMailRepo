@@ -37,9 +37,14 @@ LoginSessions::startSession();
 <!--My CSS-->
 <link href="css/style.css" rel="stylesheet">
 
+<!--My Javascript Scripts-->
+<script type="text/javascript" language="javascript"
+	src="js/js_scripts.js"></script>
+
 </head>
 
 <body>
+
 	<header>
 		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 			<div class="container">
@@ -91,6 +96,8 @@ LoginSessions::startSession();
 					</tr>
 				</table>
 			</div>
+
+
 			<!-- 
 			<table class="buttons">
 				<tr>
@@ -107,66 +114,56 @@ LoginSessions::startSession();
 				</tr>
 			</table>
 			 -->
-			<hr>
-			<h4>Nuovo contatto:</h4>
-			<div class="col-md-5">
-				<form>
-					<fieldset>
-						<div class="form-group">
-							<label for="nome">Nome</label> <input type="text"
-								class="form-control" id="nome"
-								placeholder="Inserisci il nome...">
-						</div>
-						<div class="form-group">
-							<label for="email">Email</label> <input type="text"
-								class="form-control" id="email"
-								placeholder="Inserisci l'indirizzo email...">
-						</div>
-						<div class="form-group">
-							<label for="stato">Nazione</label> <select class="form-control"
-								id="stato">
-								<option>Italia</option>
-								<option>Francia</option>
-								<option>Germania</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="stato">Attivit&agrave;</label> <select
-								class="form-control" id="stato">
-								<option>DJ-Producer</option>
-								<option>Computer Music Expert</option>
-								<option>Musicista</option>
-								<option>Studente</option>
-								<option>Appassionato</option>
-								<option>Altro</option>
-							</select>
-						</div>
-						<br><button type="submit" class="btn btn-default">Inserisci</button>
-					</fieldset>
-				</form>
-			</div>
 
-			<div class="col-md-5">
-				<form>
-					<fieldset>
-						<div class="form-group">
-							<label for="cognome">Cognome</label> <input type="text"
-								class="form-control" id="cognome"
-								placeholder="Inserisci il cognome...">
-						</div>
-						<div class="form-group">
-							<label for="citta">Citt&agrave;</label> <input type="text"
-								class="form-control" id="city"
-								placeholder="Inserisci la tua città">
-						</div>
-						<div class="form-group">
-							<label for="sitoWeb">Sito Web</label> <input type="text"
-								class="form-control" id="email"
-								placeholder="Inserisci il tuo sito Web">
-						</div>
-					</fieldset>
-				</form>
+			<?php				
+			$numCheckbox=0;
+			$queryText="SELECT * FROM subscribers";
+			$query=mysql_query($queryText,$dbConn);
+			while ($row = mysql_fetch_array($query)){
+				$numCheckbox++;
+			}
+			?>
+			<hr>
+			<div class="col-md-6">
+				<h4>Utenti iscritti:</h4>
 			</div>
+			<div class="col-md-6 alignRight">
+				<h5 id="counter">
+					<script>displayCounter('none')</script>
+				</h5>
+			</div>
+			<table class="table subscriberList">
+				<tr style="background-color: #428bca; color: #FFF;">
+					<td class="sel"><input type="checkbox" id="globalChange"
+						onChange=selectAll('<?php echo $numCheckbox ?>')></td>
+					<td class="date">Data iscrizione</td>
+					<td class="std">Nome</td>
+					<td class="std">Cognome</td>
+					<td class="mail">E-Mail</td>
+					<td class="icon">Info</td>
+				</tr>
+				<?php				
+				$count=0;
+				$queryText="SELECT * FROM subscribers";
+				$query = mysql_query($queryText,$dbConn);
+				while ($row = mysql_fetch_array($query))
+				{
+					$checkboxID="sel".$count."";
+					echo"<tr>";
+					echo"<td class='sel'><input type='checkbox' id='sel".$count."' onChange=displayCounter('".$checkboxID."')></td>";
+					echo"<td class='date'>".$row['Data_iscrizione']."</td>";
+					echo"<td class='std'>".$row['Nome']."</td>";
+					echo"<td class='std'>".$row['Cognome']."</td>";
+					echo"<td class='mail'>".$row['Email']."</td>";
+					echo"<td class='icon'><a href='contactDetails.php?id=".$row['ID']."&edit=show'><img src='img/icons/moreInfo.png' class='imageIcon'></a></td>";
+					echo"</tr>";
+					$count++;
+				}
+				if($count=0)echo"<tr><td>Nessun nuovo iscritto non ancora visualizzato</td></tr>"
+				?>
+			</table>
+
+
 		</div>
 	</div>
 	<!-- /.container -->
