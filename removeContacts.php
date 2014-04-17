@@ -69,6 +69,15 @@ LoginSessions::startSession();
 								<li><a href="removeContacts.php">Rimuovi contatti</a></li>
 							</ul>
 						</li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown">Mail<b class="caret"></b>
+						</a>
+							<ul class="dropdown-menu">
+								<li><a href="newMail.php">Nuova mail</a></li>
+								<li><a href="mailArchive.php?view=draft">Bozze</a></li>
+								<li><a href="mailArchive.php?view=sent">Inviate</a></li>
+							</ul>
+						</li>
 
 						<?php if(@$_SESSION['level']==1)echo "<li><a href='index.php?login=false'>Logout</a></li>";?>
 					</ul>
@@ -115,23 +124,41 @@ LoginSessions::startSession();
 			</table>
 			 -->
 
-			<?php				
-			$numCheckbox=0;
+			<?php	
 			$queryText="SELECT * FROM subscribers";
-			$query=mysql_query($queryText,$dbConn);
-			while ($row = mysql_fetch_array($query)){
-				$numCheckbox++;
-			}
+			$query=mysqli_query($dbConn, $queryText);
+			$numCheckbox=mysqli_num_rows($query);
+			mysqli_free_result($query);/* This function is used to free memory space */
 			?>
 			<hr>
 			<div class="col-md-6">
-				<h4>Utenti iscritti:</h4>
+				<?php 
+				if(!isset($_GET['remover'])){
+					echo "<h4>Utenti iscritti:</h4>";
+				}
+				if(isset($_GET['remover'])){
+					echo "<h4>Utenti da eliminare:</h4>";
+					echo "<h6>Sei sicuro di voler eliminare i seguenti contatti?</h6>";
+				}
+				?>
 			</div>
 			<div class="col-md-6 alignRight">
 				<h5 id="counter">
 					<script>displayCounter('none')</script>
 				</h5>
 			</div>
+			<?php 
+			/*Standard form set*/
+			if(!isset($_GET['remover'])){
+				echo "<form class='form-signin' role='form' action='removeContacts.php?remover=1' method='post'>";
+			}
+			/*Remover proceed form set*/
+			if(isset($_GET['remover'])){
+				echo "<form class='form-signin' role='form' action='removeContacts.php?remover=1&proceed=true' method='post'>";
+			}
+			?>
+
+
 			<table class="table subscriberList">
 				<tr style="background-color: #428bca; color: #FFF;">
 					<td class="sel"><input type="checkbox" id="globalChange"
@@ -142,27 +169,98 @@ LoginSessions::startSession();
 					<td class="mail">E-Mail</td>
 					<td class="icon">Info</td>
 				</tr>
-				<?php				
-				$count=0;
-				$queryText="SELECT * FROM subscribers";
-				$query = mysql_query($queryText,$dbConn);
-				while ($row = mysql_fetch_array($query))
-				{
-					$checkboxID="sel".$count."";
-					echo"<tr>";
-					echo"<td class='sel'><input type='checkbox' id='sel".$count."' onChange=displayCounter('".$checkboxID."')></td>";
-					echo"<td class='date'>".$row['Data_iscrizione']."</td>";
-					echo"<td class='std'>".$row['Nome']."</td>";
-					echo"<td class='std'>".$row['Cognome']."</td>";
-					echo"<td class='mail'>".$row['Email']."</td>";
-					echo"<td class='icon'><a href='contactDetails.php?id=".$row['ID']."&edit=show'><img src='img/icons/moreInfo.png' class='imageIcon'></a></td>";
-					echo"</tr>";
-					$count++;
+				<?php
+				if(!isset($_GET['remover'])){
+					$count=0;
+					$queryText="SELECT * FROM subscribers";
+					$query = mysqli_query($dbConn, $queryText);
+					while ($row = mysqli_fetch_array($query))
+					{
+						$checkboxID="sel".$count."";
+						echo"<tr>";
+						echo"<td class='sel'><input type='checkbox' id='sel".$count."' name='subID[]' value='".$row['ID']."' onChange=displayCounter('".$checkboxID."')></td>";
+						echo"<td class='date'>".$row['Data_iscrizione']."</td>";
+						echo"<td class='std'>".$row['Nome']."</td>";
+						echo"<td class='std'>".$row['Cognome']."</td>";
+						echo"<td class='mail'>".$row['Email']."</td>";
+						echo"<td class='icon'><a href='contactDetails.php?id=".$row['ID']."&edit=show'><img src='img/icons/moreInfo.png' class='imageIcon'></a></td>";
+						echo"</tr>";
+						$count++;
+					}
+					if($count==0)echo"<tr><td>Nessun nuovo iscritto non ancora visualizzato</td></tr>";
+					mysqli_free_result($query);/* This function is used to free memory space */
 				}
-				if($count=0)echo"<tr><td>Nessun nuovo iscritto non ancora visualizzato</td></tr>"
+
+				if(isset($_GET['remover'])){
+
+					//Remove from removeContacts
+					$queryClause="";
+					if ($_GET['remover']==1){
+						$name = $_POST['subID'];
+						$arraySize=count($name);
+						$arrayPoint=1;
+						foreach ($name as $id){
+							$queryClause=$queryClause." ID=".$id." ";
+							$arrayPoint++;
+							if($arrayPoint<=$arraySize) $queryClause=$queryClause."OR ";
+						}
+					$count=0;
+					$queryText="SELECT * FROM subscribers WHERE ".$queryClause;
+					//echo $queryText;
+					
+					$query = mysqli_query($dbConn, $queryText);
+					while ($row = mysqli_fetch_array($query))
+					{
+						$checkboxID="sel".$count."";
+						echo"<tr>";
+						echo"<td class='sel'><input type='hidden' name='sel[]' value='".$row['ID']."'>";
+						echo"<td class='date'>".$row['Data_iscrizione']."</td>";
+						echo"<td class='std'>".$row['Nome']."</td>";
+						echo"<td class='std'>".$row['Cognome']."</td>";
+						echo"<td class='mail'>".$row['Email']."</td>";
+						echo"<td class='icon'><a href='contactDetails.php?id=".$row['ID']."&edit=show'><img src='img/icons/moreInfo.png' class='imageIcon'></a></td>";
+						echo"</tr>";
+						$count++;
+					}
+					if($count==0)echo"<tr><td>Nessun nuovo iscritto non ancora visualizzato</td></tr>";
+					mysqli_free_result($query);/* This function is used to free memory space */
+					}
+
+					//Remove from userHome
+					else if ($_GET['remover']==2){
+
+					}
+
+					//Remove from subscribers
+					else if ($_GET['remover']==3){
+
+					}
+
+					else {
+						echo"<tr>";
+						echo"<td class='sel'></td>";
+						echo"<td class='date'>ERROR</td>";
+						echo"<td class='std'>ERROR<td>";
+						echo"<td class='std'>ERROR</td>";
+						echo"<td class='mail'>ERROR</td>";
+						echo"<td class='icon'></td>";
+						echo"</tr>";
+					}
+				}
 				?>
 			</table>
+			<br>
 
+			<?php 
+			if(!isset($_GET['remover'])){
+				echo "<button type='submit' class='btn btn-warning'>Rimuovi contatto/i</button>";
+			}
+			if(isset($_GET['remover'])){
+				echo "<button type='submit' class='btn btn-warning'>Procedi con la rimozione</button>";
+			}
+			?>
+
+			</form>
 
 		</div>
 	</div>

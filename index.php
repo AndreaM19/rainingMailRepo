@@ -14,8 +14,8 @@ LoginSessions::startSession();
 if(@$_SESSION['level']=="1")header("location:userHome.php");
 
 if(@$_GET['login']=="true"){
-	$queryText = mysql_query("SELECT username, password, name, imgPath, Level FROM users",$dbConn);
-	while ($row = mysql_fetch_array($queryText))
+	$queryText = mysqli_query($dbConn, "SELECT username, password, name, imgPath, Level FROM users");
+	while ($row = mysqli_fetch_array($queryText))
 	{
 		if($row['password']==md5($_POST['password']) && $row['username']==md5($_POST['username']))
 		{			

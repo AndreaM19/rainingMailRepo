@@ -65,7 +65,16 @@ LoginSessions::startSession();
 								<li><a href="removeContacts.php">Rimuovi contatti</a></li>
 							</ul>
 						</li>
-						
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown">Mail<b class="caret"></b>
+						</a>
+							<ul class="dropdown-menu">
+								<li><a href="newMail.php">Nuova mail</a></li>
+								<li><a href="mailArchive.php?view=draft">Bozze</a></li>
+								<li><a href="mailArchive.php?view=sent">Inviate</a></li>
+							</ul>
+						</li>
+
 						<?php if(@$_SESSION['level']==1)echo "<li><a href='index.php?login=false'>Logout</a></li>";?>
 					</ul>
 				</div>
@@ -127,8 +136,8 @@ LoginSessions::startSession();
 				<?php
 				$count=0;
 				$queryText="SELECT * FROM subscribers";
-				$query = mysql_query($queryText,$dbConn);
-				while ($row = mysql_fetch_array($query))
+				$query = mysqli_query($dbConn, $queryText);
+				while ($row = mysqli_fetch_array($query))
 				{
 					echo"<tr>";
 					echo"<td class='date'>".$row['Data_iscrizione']."</td>";

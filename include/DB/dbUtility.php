@@ -4,15 +4,20 @@ class dbUtility{
 	
 	/*Open connection to a Database*/
 	public static function connectToDB($host, $user, $password, $db){
-		$conn = mysql_connect($host, $user, $password) or die;
-		mysql_select_db($db, $conn);
+		$conn = mysqli_connect($host, $user, $password, $db) or die ("An error is occured" . mysqli_error($conn));
+		//mysqli_select_db($db, $conn);
 		return $conn;
 	}
 
 	/*Close a connection to a Database*/
 	public static function disconnectFromDB($connToClose){
-		mysql_close($connToClose);
+		mysqli_close($connToClose);
+	}
+	
+	/*Remove a contact from Database*/
+	public static function removeContact($contactID){
+		mysqli_query("DELETE FROM subscribers WHERE ID=".$contactID."");
+		
 	}
 
 }
-?>

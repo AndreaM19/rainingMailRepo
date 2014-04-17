@@ -117,65 +117,39 @@ LoginSessions::startSession();
 			</table>
 			 -->
 			<hr>
-			<h4>Nuovo contatto:</h4>
-			<div class="col-md-5">
-				<form>
-					<fieldset>
+			<h4>Nuova mail:</h4>
+            
+            <form>
+            <fieldset>
+			<div class="col-md-8">
+				
+					
 						<div class="form-group">
-							<label for="nome">Nome</label> <input type="text"
+							<label for="nome">Titolo</label> <input type="text"
 								class="form-control" id="nome"
 								placeholder="Inserisci il nome...">
 						</div>
-						<div class="form-group">
-							<label for="email">Email</label> <input type="text"
-								class="form-control" id="email"
-								placeholder="Inserisci l'indirizzo email...">
-						</div>
-						<div class="form-group">
-							<label for="stato">Nazione</label> <select class="form-control"
-								id="stato">
-								<option>Italia</option>
-								<option>Francia</option>
-								<option>Germania</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="stato">Attivit&agrave;</label> <select
-								class="form-control" id="stato">
-								<option>DJ-Producer</option>
-								<option>Computer Music Expert</option>
-								<option>Musicista</option>
-								<option>Studente</option>
-								<option>Appassionato</option>
-								<option>Altro</option>
-							</select>
-						</div>
-						<br><button type="submit" class="btn btn-default">Inserisci</button>
-					</fieldset>
-				</form>
+						
+					
+				
 			</div>
 
-			<div class="col-md-5">
-				<form>
-					<fieldset>
-						<div class="form-group">
-							<label for="cognome">Cognome</label> <input type="text"
-								class="form-control" id="cognome"
-								placeholder="Inserisci il cognome...">
-						</div>
-						<div class="form-group">
-							<label for="citta">Citt&agrave;</label> <input type="text"
-								class="form-control" id="city"
-								placeholder="Inserisci la tua città">
-						</div>
-						<div class="form-group">
-							<label for="sitoWeb">Sito Web</label> <input type="text"
-								class="form-control" id="email"
-								placeholder="Inserisci il tuo sito Web">
-						</div>
-					</fieldset>
-				</form>
+			<div class="col-md-4">
+            <br>
+				<button type="submit" class="btn btn-success">Invia newsletter</button>
+                <button type="submit" class="btn btn-default">Salva come bozza</button>
 			</div>
+            
+            <div class="col-md-12">
+            <br>
+           	 <div class="form-group">
+							<label for="email">Contenuto Email</label> 
+                            <textarea class="form-control" rows="10"></textarea>
+						</div>
+                        
+            </div>
+            </fieldset>
+            </form>
 		</div>
 	</div>
 	<!-- /.container -->

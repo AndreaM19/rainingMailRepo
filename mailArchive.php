@@ -40,6 +40,7 @@ LoginSessions::startSession();
 </head>
 
 <body>
+
 	<header>
 		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 			<div class="container">
@@ -117,65 +118,23 @@ LoginSessions::startSession();
 			</table>
 			 -->
 			<hr>
-			<h4>Nuovo contatto:</h4>
-			<div class="col-md-5">
-				<form>
-					<fieldset>
-						<div class="form-group">
-							<label for="nome">Nome</label> <input type="text"
-								class="form-control" id="nome"
-								placeholder="Inserisci il nome...">
-						</div>
-						<div class="form-group">
-							<label for="email">Email</label> <input type="text"
-								class="form-control" id="email"
-								placeholder="Inserisci l'indirizzo email...">
-						</div>
-						<div class="form-group">
-							<label for="stato">Nazione</label> <select class="form-control"
-								id="stato">
-								<option>Italia</option>
-								<option>Francia</option>
-								<option>Germania</option>
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="stato">Attivit&agrave;</label> <select
-								class="form-control" id="stato">
-								<option>DJ-Producer</option>
-								<option>Computer Music Expert</option>
-								<option>Musicista</option>
-								<option>Studente</option>
-								<option>Appassionato</option>
-								<option>Altro</option>
-							</select>
-						</div>
-						<br><button type="submit" class="btn btn-default">Inserisci</button>
-					</fieldset>
-				</form>
-			</div>
+			<div class="row">
+				<!-- Main column  -->
+				<div class="col-md-8">
+				<?php
+				if($_GET['view']=="draft") echo "<h4>Bozze:</h4>";
+				else if($_GET['view']=="sent") echo "<h4>Posta inviata:</h4>";
+				?>
+					
 
-			<div class="col-md-5">
-				<form>
-					<fieldset>
-						<div class="form-group">
-							<label for="cognome">Cognome</label> <input type="text"
-								class="form-control" id="cognome"
-								placeholder="Inserisci il cognome...">
-						</div>
-						<div class="form-group">
-							<label for="citta">Citt&agrave;</label> <input type="text"
-								class="form-control" id="city"
-								placeholder="Inserisci la tua città">
-						</div>
-						<div class="form-group">
-							<label for="sitoWeb">Sito Web</label> <input type="text"
-								class="form-control" id="email"
-								placeholder="Inserisci il tuo sito Web">
-						</div>
-					</fieldset>
-				</form>
+				</div>
+
+				<!-- Side column  -->
+				<div class="col-md-4">
+					<h4>This is a side column for other modules</h4>
+				</div>
 			</div>
+			
 		</div>
 	</div>
 	<!-- /.container -->
@@ -195,6 +154,7 @@ LoginSessions::startSession();
 	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
 	<script src="js/jquery.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+
 </body>
 </html>
 <?php

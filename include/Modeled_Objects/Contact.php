@@ -87,4 +87,3 @@ class Contact{
 	}
 	/*End of Get & Set section*/
 }
-?>

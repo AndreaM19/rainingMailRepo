@@ -65,6 +65,15 @@ LoginSessions::startSession();
 								<li><a href="removeContacts.php">Rimuovi contatti</a></li>
 							</ul>
 						</li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown">Mail<b class="caret"></b>
+						</a>
+							<ul class="dropdown-menu">
+								<li><a href="newMail.php">Nuova mail</a></li>
+								<li><a href="mailArchive.php?view=draft">Bozze</a></li>
+								<li><a href="mailArchive.php?view=sent">Inviate</a></li>
+							</ul>
+						</li>
 
 						<?php if(@$_SESSION['level']==1)echo "<li><a href='index.php?login=false'>Logout</a></li>";?>
 					</ul>
@@ -125,8 +134,8 @@ LoginSessions::startSession();
 						<?php
 						$count=0;
 						$queryText="SELECT ID, Email, Cognome, Nome, Data_iscrizione FROM subscribers INNER JOIN last_subscription ON ID=userID";
-						$query = mysql_query($queryText,$dbConn);
-						while ($row = mysql_fetch_array($query))
+						$query = mysqli_query($dbConn, $queryText);
+						while ($row = mysqli_fetch_array($query))
 						{
 							echo"<tr>";
 							echo"<td class='date'>".$row['Data_iscrizione']."</td>";
@@ -138,7 +147,8 @@ LoginSessions::startSession();
 							echo"</tr>";
 							$count++;
 						}
-						if($count=0)echo"<tr><td>Nessun nuovo iscritto non ancora visualizzato</td></tr>"
+						if($count=0)echo"<tr><td>Nessun nuovo iscritto non ancora visualizzato</td></tr>";
+						mysqli_free_result($query);/* This function is used to free memory space */
 						?>
 					</table>
 
@@ -155,8 +165,8 @@ LoginSessions::startSession();
 						<?php
 						$count=0;
 						$queryText="SELECT Email, Cognome, Nome, Data_iscrizione FROM subscribers INNER JOIN last_subscription ON ID=userID";
-						$query = mysql_query($queryText,$dbConn);
-						while ($row = mysql_fetch_array($query))
+						$query = mysqli_query($dbConn, $queryText);
+						while ($row = mysqli_fetch_array($query))
 						{
 							echo"<tr>";
 							echo"<td class='date'>".$row['Data_iscrizione']."</td>";
@@ -164,11 +174,12 @@ LoginSessions::startSession();
 
 							echo"<td class='mail'>".$row['Email']."</td>";
 							echo"<td class='icon'><a href='#' onClick='alert()'><img src='img/icons/edit.png' class='imageIcon'></a></td>";
-							echo"<td class='icon'><a href='#' onClick='confirm()'><img src='img/icons/delete.png' class='imageIcon'></a></td>";
+							echo"<td class='icon'><a href='removeContacts.php?remover=2'><img src='img/icons/delete.png' class='imageIcon'></a></td>";
 							echo"</tr>";
 							$count++;
 						}
-						if($count=0)echo"<tr><td>Nessun nuovo iscritto non ancora visualizzato</td></tr>"
+						if($count=0)echo"<tr><td>Nessun nuovo iscritto non ancora visualizzato</td></tr>";
+						mysqli_free_result($query);/* This function is used to free memory space */
 						?>
 					</table>
 

@@ -13,5 +13,3 @@ class Constants{
 	public static $generalDone="Operazione effettuata con successo";
 	public static $generalFail="Impossibile completare l'operazione";
 }
-
-?>
